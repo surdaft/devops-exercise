@@ -17,11 +17,11 @@ class TwitchService {
         // trim slash characters at start and end is always handy
         // to ensure we can use this endpoint however we like
         if (url.substring(-1) === "/") {
-            url = url.substring(0, url.length - 1)
+            url = url.substring(0, url.length)
         }
 
         if (url.substring(0, 1) === "/") {
-            url = url.substring(1, url.length - 1)
+            url = url.substring(1, url.length)
         }
 
         // cast options to be a RequestInit

@@ -66,7 +66,7 @@ class App extends React.Component<IProps, IState> {
 
   // retrieveStreams
   retrieveStreams(): Promise<Array<{}>> {
-    return this.twitchService.GetTopStreams(10)
+    return this.twitchService.GetTopStreams(20)
   }
 
   // componentDidMount
@@ -114,15 +114,19 @@ class App extends React.Component<IProps, IState> {
 
   render() {
     let list = []
+    let i = 0
+
     for (const stream of this.state.streams) {
+      i++
+
       list.push(
-        <div className="flex flex-col">
-          <div className="h-40">
-            <img src={stream.thumbnail_url} />
+        <div key={i} className="flex flex-col">
+          <div className="h-40 flex">
+            <img className='max-w-full block' src={stream.thumbnail_url.replace('{height}', 720).replace('{width}', 1280)} />
           </div>
-          <div className="flex flex-col">
+          <div className="flex flex-col flex-start text-left">
             <strong>{stream.title}</strong><br />
-            <small className="flex flex-row"><strong className="mr-4">{stream.user_name}</strong> {stream.game_name}</small>
+            <small className="flex flex-row"><strong className="mr-2 uppercase">{stream.user_name}</strong> {stream.game_name}</small>
           </div>
         </div>
       )
@@ -142,9 +146,11 @@ class App extends React.Component<IProps, IState> {
     }
 
     return (
-      <div className="grid grid-fow-col auto-cols-max">
-        {err}
-        {list}
+      <div className="container mx-auto">
+        <div className="grid grid-fow-col grid-cols-4">
+          {err}
+          {list}
+        </div>
       </div>
     )
   }
