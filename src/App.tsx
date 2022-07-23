@@ -21,6 +21,9 @@ interface IState {
   // error
   // display errors to the frontend
   error: String|null
+  // auth
+  // is the user authenticated
+  auth: Object|null
 }
 
 class App extends React.Component<IProps, IState> {
@@ -34,6 +37,7 @@ class App extends React.Component<IProps, IState> {
       loaded: false,
       error: null,
       streams: [],
+      auth: null
     }
 
     this.twitchService = new TwitchService
@@ -83,6 +87,14 @@ class App extends React.Component<IProps, IState> {
     let err = null
     if (this.state.error) {
       err = <div className="rounded p-4 bg-red-400 text-white block">{this.state.error}</div>
+    }
+    
+    if (!this.state.auth) {
+      return (
+        <div className="grid grid-fow-col auto-cols-max">
+          <a href="" className="rounded p-4 bg-purple-800 text-white block hover:text-white hover:bg-purple-600 transition-all">Login with Twitch</a>
+        </div>
+      )
     }
 
     return (
