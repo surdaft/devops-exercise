@@ -58,6 +58,8 @@ class App extends React.Component<IProps, IState> {
         }
 
         self.setState({streams: s.data})
+      }).catch((err: Error) => {
+        self.setState({error: 'Something went wrong, sorry!'})
       })
     })
   }
@@ -78,8 +80,14 @@ class App extends React.Component<IProps, IState> {
       )
     }
 
+    let err = null
+    if (this.state.error) {
+      err = <div className="rounded p-4 bg-red-400 text-white block">{this.state.error}</div>
+    }
+
     return (
       <div className="grid grid-fow-col auto-cols-max">
+        {err}
         {list}
       </div>
     )
