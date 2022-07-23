@@ -3,6 +3,16 @@ import TwitchService from './twitchService'
 import './App.css'
 import React from 'react'
 
+// Client ID generated on twitch developer panel. This is a public key and safe
+// to commit for this exercise.
+// I would generally provide an entry config that allows me to define this outside
+// the application. For optimal configuration and security.
+const CLIENT_ID="9unczewf8q9svd7j9vap19203qro5l"
+
+// local development uses ngrok for https convenience
+// this will need configuring each time
+const REDIRECT_URI="https://fd64-82-36-94-123.ngrok.io"
+
 // IProps
 // define any props to pass through
 interface IProps {
@@ -23,11 +33,17 @@ interface IState {
   error: String|null
   // auth
   // is the user authenticated
-  auth: Object|null
+  auth: String|null
 }
 
 class App extends React.Component<IProps, IState> {
+  // twitchService
+  // send requests to twitch
   twitchService: TwitchService
+
+  // authLink
+  // created on startup using defined CLIENT_ID and REDIRECT_URI
+  authLink: string | undefined
 
   // constructor
   constructor(props: {}) {
@@ -40,7 +56,12 @@ class App extends React.Component<IProps, IState> {
       auth: null
     }
 
-    this.twitchService = new TwitchService
+    this.twitchService = new TwitchService(CLIENT_ID)
+    this.authLink = "https://id.twitch.tv/oauth2/authorize?".concat((new URLSearchParams({
+      client_id: CLIENT_ID,
+      redirect_uri: REDIRECT_URI,
+      response_type: 'token', // this must be token to use the implicit grant and avoid a server
+    })).toString())
   }
 
   // retrieveStreams
@@ -52,8 +73,30 @@ class App extends React.Component<IProps, IState> {
   componentDidMount() {
     let self = this
 
+    let auth = null
+    let parts = window.location.hash.substring(0, 1) === "#"
+      ? window.location.hash.substring(1, window.location.hash.length - 1).split('&')
+      : []
+
+    for (const part of parts) {
+      let [param,value] = part.split('=')
+      if (param === "access_token") {
+        auth = value
+        break
+      }
+    }
+
     // ensure we say the component is loaded
-    self.setState({loaded: true}, () => {
+    self.setState({loaded: true, auth: auth}, () => {
+      // dont try and grab the streams if I am not authenticated
+      if (!self.state.auth) {
+        return
+      }
+
+      // this cannot be set before the if statement above, otherwise it
+      // becomes ?. which then is a potential undefined option, not string or null
+      self.twitchService.SetAccessToken(self.state.auth.toString())
+
       // any here feels like a hack, but will do for time constraints
       this.retrieveStreams.bind(self)().then((s: any) => {
         // in case we unloaded during the request, bail
@@ -61,8 +104,9 @@ class App extends React.Component<IProps, IState> {
           return
         }
 
-        self.setState({streams: s.data})
+        self.setState({streams: s})
       }).catch((err: Error) => {
+        console.error(err)
         self.setState({error: 'Something went wrong, sorry!'})
       })
     })
@@ -92,7 +136,7 @@ class App extends React.Component<IProps, IState> {
     if (!this.state.auth) {
       return (
         <div className="grid grid-fow-col auto-cols-max">
-          <a href="" className="rounded p-4 bg-purple-800 text-white block hover:text-white hover:bg-purple-600 transition-all">Login with Twitch</a>
+          <a href={this.authLink} className="rounded p-4 bg-purple-800 text-white block hover:text-white hover:bg-purple-600 transition-all">Login with Twitch</a>
         </div>
       )
     }

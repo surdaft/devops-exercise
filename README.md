@@ -26,3 +26,41 @@ Design and implement a CI/CD pipeline that builds, tests and deploys either a si
 * Use free version of CI/CD tools (e.g. GitLab, CircleCI, Travis CI etc.)
 * Use any open source application/service written in any language
 * Use AWS Free Tier if cloud resources are required
+
+---
+
+## Usage
+
+How to use this project
+
+### Ngrok
+
+Ngrok is used as the local http tunnel. This allows a secure https oauth connection, it is not necessary, but handy.
+
+**Helper downloader:**
+
+This will download the relevant client into the same dir for you.
+
+```
+bash scripts/downloadNgrok.sh
+```
+
+**Configure ngrok:**
+
+You need to then authenticate ngrok, instructions found [here](https://dashboard.ngrok.com/get-started/setup), however if you already have used ngrok before then this is not necessary.
+
+**Start ngrok:**
+
+```
+bash scripts/startNgrok.sh
+```
+
+Copy the URL that is outputted and update App.tsx REDIRECT_URI to be the ngrok uri.
+
+### Vite Dev Server
+
+The vite dev server is on port `5173`
+
+```
+npm run dev
+```
