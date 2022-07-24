@@ -1,3 +1,4 @@
+#!/bin/bash
 sudo su root
 
 # provision the server with some basic stuff

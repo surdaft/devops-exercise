@@ -9,4 +9,4 @@ cp "${PLANFILE}" "plans/latest.tfplan"
 
 cd ../
 
-echo -e "\n\nbash scripts/tfApply.sh latest.tfplan"
+echo -e "\n\nbash scripts/tfApply.sh plans/latest.tfplan"
