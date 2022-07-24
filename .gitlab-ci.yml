@@ -29,15 +29,22 @@ docker-build:
         tag=":$CI_COMMIT_REF_SLUG"
         echo "Running on branch '$CI_COMMIT_BRANCH': tag = $tag"
       fi
+    # build the vite application
     - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
     - docker push "$CI_REGISTRY_IMAGE${tag}"
-    - docker cp "$CI_REGISTRY_IMAGE${tag}:/usr/share/nginx/html" dist
-    - tar -zcf /tmp/dist.tar.gz dist
+    # we have now updated the image, so _create_ a container
+    # so we can pull out the compiled assets.
+    # create is used instead of run as container does not need
+    # to be running and create does not start it
+    - docker create --name devops-exercise "$CI_REGISTRY_IMAGE${tag}"
+    - docker cp devops-exercise:/usr/share/nginx/html" compiled
+    # gzip the compiled assets
+    - tar -zcf /tmp/compiled.tar.gz compiled
   artifacts:
     untracked: false
     expire_in: "30 days"
     paths:
-      - /tmp/dist.tar.gz
+      - /tmp/compiled.tar.gz
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_COMMIT_BRANCH
