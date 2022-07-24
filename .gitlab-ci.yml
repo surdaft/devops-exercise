@@ -37,7 +37,7 @@ docker-build:
     # create is used instead of run as container does not need
     # to be running and create does not start it
     - docker create --name devops-exercise "$CI_REGISTRY_IMAGE${tag}"
-    - docker cp devops-exercise:/usr/share/nginx/html" compiled
+    - docker cp devops-exercise:/usr/share/nginx/html compiled
     # gzip the compiled assets
     - tar -zcf /tmp/compiled.tar.gz compiled
   artifacts:
