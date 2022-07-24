@@ -39,12 +39,12 @@ docker-build:
     - docker create --name devops-exercise "$CI_REGISTRY_IMAGE${tag}"
     - docker cp devops-exercise:/usr/share/nginx/html compiled
     # gzip the compiled assets
-    - tar -zcf /tmp/compiled.tar.gz compiled
+    - tar -zcvf compiled.tar.gz compiled
   artifacts:
     untracked: false
     expire_in: "30 days"
     paths:
-      - /tmp/compiled.tar.gz
+      - compiled.tar.gz
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_COMMIT_BRANCH
