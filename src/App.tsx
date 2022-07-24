@@ -11,7 +11,7 @@ const CLIENT_ID="9unczewf8q9svd7j9vap19203qro5l"
 
 // local development uses ngrok for https convenience
 // this will need configuring each time
-const REDIRECT_URI="https://fd64-82-36-94-123.ngrok.io"
+const REDIRECT_URI="https://devops-exercise.jackstupple.uk"
 
 // IProps
 // define any props to pass through
