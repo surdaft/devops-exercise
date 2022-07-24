@@ -1,5 +1,15 @@
 ngrok
 
+terraform/id_rsa.pub
+terraform/.terraform.lock.hcl
+terraform/terraform.tfstate
+terraform/terraform.tfstate.backup
+terraform/plans
+!terraform/plans/.gitkeep
+terraform/.terraform
+terraform/*.tfvars
+!terraform/example.tfvars
+
 # Logs
 logs
 *.log
