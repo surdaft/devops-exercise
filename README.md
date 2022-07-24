@@ -64,3 +64,13 @@ The vite dev server is on port `5173`
 ```
 npm run dev
 ```
+
+### Terraform
+
+**Install AWS cli**
+
+You need to install the AWS cli from here https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html
+
+**Install terraform**
+
+You need to install terraform https://www.terraform.io/downloads

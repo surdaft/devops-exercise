@@ -31,6 +31,13 @@ docker-build:
       fi
     - docker build --pull -t "$CI_REGISTRY_IMAGE${tag}" .
     - docker push "$CI_REGISTRY_IMAGE${tag}"
+    - docker copy "$CI_REGISTRY_IMAGE${tag}:/usr/share/nginx/html" dist
+    - tar -zcf /tmp/dist.tar.gz dist
+  artifacts:
+    untracked: false
+    expire_in: "30 days"
+    paths:
+      - /tmp/dist.tar.gz
   # Run this job in a branch where a Dockerfile exists
   rules:
     - if: $CI_COMMIT_BRANCH
