@@ -1,3 +1,11 @@
+## Devops Exercise
+
+**Project URL:** https://devops-exercise.jackstupple.uk
+
+> See [SOLUTION.md](SOLUTION.md) for more info about what is within this project.
+
+---
+
 ## Overview
 This exercise demonstrates the use of CI/CD tooling.
 
@@ -26,6 +34,17 @@ Design and implement a CI/CD pipeline that builds, tests and deploys either a si
 * Use free version of CI/CD tools (e.g. GitLab, CircleCI, Travis CI etc.)
 * Use any open source application/service written in any language
 * Use AWS Free Tier if cloud resources are required
+
+---
+
+## Checklist
+
+- [-] Pipeline described in file (.gitlab-ci.yml)
+- [-] Infrastructure as code (Terraform) - Deploys a `t2.micro` with our compiled HTML assets pulled from gitlab artifacts
+- [-] Provide application URL (Top of readme)
+- [-] Provide source code (Hi!)
+- [-] Provide documentation and diagram for solution (See [SOLUTION.md](SOLUTION.md))
+- [-] Write simple app/service of my own (See [SOLUTION.md](SOLUTION.md))
 
 ---
 

@@ -21,6 +21,9 @@ curl -o compiled.tar.gz -L "$URL" >> /tmp/startup.log 2>&1
 #   I would provide a checksum file with the compiled.tar.gz artifact 
 #   and then do a checksum against the tar file
 
+# delete old artifacts
+rm -rf compiled
+
 tar -zxvf compiled.tar.gz >> /tmp/startup.log 2>&1
 
 # swap out the old files
